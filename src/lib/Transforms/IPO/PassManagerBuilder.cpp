@@ -48,6 +48,7 @@
 #include "llvm/Transforms/Obfuscation/Substitution.h"
 #include "llvm/Transforms/Obfuscation/StringObfuscation.h"
 #include "llvm/Transforms/Obfuscation/CryptoUtils.h"
+#include "llvm/Transforms/Obfuscation/xVMP.h"
 
 using namespace llvm;
 
@@ -157,6 +158,9 @@ static cl::opt<bool> EnableSimpleLoopUnswitch(
     "enable-simple-loop-unswitch", cl::init(false), cl::Hidden,
     cl::desc("Enable the simple loop unswitch pass. Also enables independent "
              "cleanup passes integrated into the loop pass manager pipeline."));
+
+// static cl::opt<bool> enableVMProtect("govmp", cl::init(false),
+//                                 cl::desc("Enable the VMProtect pass"));
 
 // Flags for obfuscation
 static cl::opt<bool> Flattening("fla", cl::init(false),
@@ -474,6 +478,9 @@ void PassManagerBuilder::populateModulePassManager(
 
   // Allow forcing function attributes as a debugging and tuning aid.
   MPM.add(createForceFunctionAttrsLegacyPass());
+
+  MPM.add(createDemoteRegisterToMemoryPass());
+  MPM.add(createVMProtect(false));
 
   MPM.add(createSplitBasicBlock(Split));
   MPM.add(createBogus(BogusControlFlow));
@@ -1132,3 +1139,4 @@ void LLVMPassManagerBuilderPopulateLTOPassManager(LLVMPassManagerBuilderRef PMB,
 
   Builder->populateLTOPassManager(*LPM);
 }
+

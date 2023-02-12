@@ -2,6 +2,7 @@
 #include "llvm/IR/Module.h"
 #include "llvm/Support/raw_ostream.h"
 #include <sstream>
+#include "llvm/Transforms/Obfuscation/xVMP.h"
 
 using namespace llvm;
 
@@ -100,6 +101,19 @@ std::string readAnnotate(Function *f) {
 }
 
 bool toObfuscate(bool flag, Function *f, std::string const &attribute) {
+  if (is_interpreter_function(f) && attribute.find("vmp") == std::string::npos) {
+    // errs() << "is_interpreter_function: " << f->getName() << "\n";
+    // errs() << "get_vm_function_name: " << get_vm_function_name(f) << "\n";
+    std::string vm_func_name = get_vm_function_name(f);
+    Function *vm_func = f->getParent()->getFunction(vm_func_name);
+    if (!vm_func) {
+      errs() << "is_interpreter_function: " << vm_func_name << " is not found\n";
+    } else {
+      // errs() << "is_interpreter_function: " << vm_func_name << " found. Drive in\n";
+      return toObfuscate(flag, vm_func, attribute);
+    }
+  }
+
   std::string attr = attribute;
   std::string attrNo = "no" + attr;
 
