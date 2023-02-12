@@ -161,7 +161,8 @@ The length of function `vm_interpreter_tea_decrypt` is 0x149F2.
 
 ## Precautions
 
-- Code optimization. Virtualization is unsound because code optimization may introduces instructions that xVMP cannot handle. So please compile with the `-O0` option, or optimize after xVMP virtualization is complete.
+- Code optimization. Virtualization is unsound because code optimization may introduces instructions that xVMP cannot handle. So please compile with the `-O0` option, or optimize after xVMP virtualization is complete. Please do not use the `-O3`, `-O2` option.
+- Please do not use the `-g` option. Because it will introduce instructions such as `@llvm.dbg.declare`.
 
 
 
