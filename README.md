@@ -83,7 +83,7 @@ But please heed these [precautions](#Precautions).
 
 ## Examples
 
-We have prepared three examples under the [examples](./examples/) directory to show how to use xVMP.
+We have prepared three examples in the [examples](./examples/) directory to show how to use xVMP.
 In these examples, you can use xVMP alone or use xVMP with ollvm to protect specific functions easily, and you can also see the advantages of xVMP over Tigress.
 
 We use `/examples/test/test2` as an example. Part of the source code is shown below.
@@ -163,6 +163,7 @@ The length of function `vm_interpreter_tea_decrypt` is 0x149F2.
 
 - Code optimization. Virtualization is unsound because code optimization may introduces instructions that xVMP cannot handle. So please compile with the `-O0` option, or optimize after xVMP virtualization is complete. Please do not use the `-O3`, `-O2` option.
 - Please do not use the `-g` option. Because it will introduce instructions such as `@llvm.dbg.declare`.
+- If you want to modify the interpreter, please run the `scripts/rebuild-with-interpreter.sh` script after installing python2 to update the hard-coded interpreter. The interpreter source code is in the `src/xVMPInterpreter` directory.
 
 
 

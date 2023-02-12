@@ -109,8 +109,11 @@ bool toObfuscate(bool flag, Function *f, std::string const &attribute) {
     if (!vm_func) {
       errs() << "is_interpreter_function: " << vm_func_name << " is not found\n";
     } else {
-      // errs() << "is_interpreter_function: " << vm_func_name << " found. Drive in\n";
-      return toObfuscate(flag, vm_func, attribute);
+      // avoid recursion
+      if (vm_func != f) {
+        // errs() << "is_interpreter_function: " << vm_func_name << " found. Drive in\n";
+        return toObfuscate(flag, vm_func, attribute);
+      }
     }
   }
 
@@ -133,12 +136,10 @@ bool toObfuscate(bool flag, Function *f, std::string const &attribute) {
   if (readAnnotate(f).find(attrNo) != std::string::npos) {
     return false;
   }
-
   // If fla annotations
   if (readAnnotate(f).find(attr) != std::string::npos) {
     return true;
   }
-
   // If fla flag is set
   if (flag == true) {
     /* Check if the number of applications is correct
