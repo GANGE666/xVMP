@@ -46,6 +46,8 @@ Please download the latest prebuilt binaries from [Release](https://github.com/G
 
 The code in the master branch is xVMP mixed with obfuscator-llvm based on LLLVM 8.0.
 
+0. Prerequisites. Same as [LLVM building requirements](https://llvm.org/docs/GettingStarted.html#requirements).
+
 1. Use the building script. It will build xVMP and compatible obfuscator-llvm in the `build` directory.
 
 ```bash
@@ -80,6 +82,80 @@ But please heed these [precautions](#Precautions).
 
 
 ## Examples
+
+We have prepared three examples under the [examples](./examples/) directory to show how to use xVMP.
+In these examples, you can use xVMP alone or use xVMP with ollvm to protect specific functions easily, and you can also see the advantages of xVMP over Tigress.
+
+We use `/examples/test/test2` as an example. Part of the source code is shown below.
+
+```c
+#ifdef ENABLE_OLLVM
+__attribute((__annotate__(("fla"))))
+__attribute((__annotate__(("bcf"))))
+#endif
+#ifdef ENABLE_XVMP
+__attribute((__annotate__(("vmp"))))
+#endif
+uint32_t tea_decrypt (uint32_t* v) {
+    uint32_t v0=v[0], v1=v[1], sum=0xC6EF3720, i;  /* set up */
+    uint32_t delta=0x9e3779b9;                     /* a key schedule constant */
+    uint32_t k0=0x94C36D33, k1=0x164512A3, k2=0xFEEEDA59, k3=0x87BD19BD;   /* cache key */
+    for (i=0; i<32; i++) {                         /* basic cycle start */
+        v1 -= ((v0<<4) + k2) ^ (v0 + sum) ^ ((v0>>5) + k3);
+        v0 -= ((v1<<4) + k0) ^ (v1 + sum) ^ ((v1>>5) + k1);
+        sum -= delta;
+    }                                              /* end cycle */
+    v[0]=v0; v[1]=v1;
+    return v[0];
+}
+```
+
+We will show the protection effects after four compilation schemes: 
+
+- [Original build](####Original build)
+- [Tigress protection](####Tigress Protection)
+- [xVMP protection](####xVMP Protection)
+- [xVMP combined with Obfuscator-LLVM protection](####xVMP+Obfuscator-LLVM)
+
+
+
+#### Original build
+
+Use `clang test2.c -o test2` to build an unprotected program. The unprotected programs can be easily analyzed for original logic using reverse engineering tools, like IDA Pro.
+
+<img src="imgs/image-20230212154152017.png" alt="image-20230212154152017" style="zoom:50%;" />
+
+#### Tigress Protection
+
+Use `tigress --Environment=x86_64:Linux:Gcc:4.6 --Seed=0  --Transform=Virtualize   --VirtualizeDispatch=interpolation --Functions=tea_decrypt --VirtualizeEncodeByteArray=true test2.c --out=test2_tigress.c` to protect the `test2` with Tigress.
+
+In IDA, we can clearly see that the virtualized code only XORs a constant for protection, which is very easy to be broken. The length of virtualized function is 0x7CA.
+
+<img src="imgs/image-20230212154624109.png" alt="image-20230212154624109" style="zoom:50%;" />
+
+<img src="imgs/image-20230212154747677.png" alt="image-20230212154747677" style="zoom:50%;" />
+
+#### xVMP Protection
+
+Use `clang -DENABLE_XVMP test2.c -o test2_xvmp `  to protect the `test2` with xVMP.
+
+The virtualization code of program protected by xVMP is more hardened and protected, and the interpreter is more complicated.
+
+The length of function `vm_interpreter_tea_decrypt` is 0x5A71.
+
+<img src="imgs/image-20230212155037488.png" alt="image-20230212155037488" style="zoom:50%;" />
+
+<img src="imgs/image-20230212155055490.png" alt="image-20230212155055490" style="zoom:50%;" />
+
+#### xVMP+Obfuscator-LLVM
+
+Use  `clang -DENABLE_XVMP -DENABLE_OLLVM test2.c -o test2_xvmp_ollvm`  to protect the `test2` with xVMP and obfuscator-LLVM.
+
+The protection of xVMP+oLLVM makes it more difficult for attackers to be reversed.
+
+The length of function `vm_interpreter_tea_decrypt` is 0x149F2.
+
+<img src="imgs/image-20230212155110480.png" alt="image-20230212155110480" style="zoom:50%;" />
 
 
 
