@@ -30,24 +30,44 @@
 // llvm-9.0 XOR=30
 // newer: https://llvm.org/doxygen/IR_2Instruction_8h_source.html#l00704
 
-#define BINOP_ADD       13
-#define BINOP_FADD      14
-#define BINOP_SUB       15
-#define BINOP_FSUB      16
-#define BINOP_MUL       17
-#define BINOP_FMUL      18
-#define BINOP_UDIV      19
-#define BINOP_SDIV      20
-#define BINOP_FDIV      21
-#define BINOP_UREM      22
-#define BINOP_SREM      23
-#define BINOP_FREM      24
-#define BINOP_SHL       25
-#define BINOP_LSHR      26
-#define BINOP_ASHR      27
-#define BINOP_AND       28
-#define BINOP_OR        29
-#define BINOP_XOR       30
+#define BINOP_ADD       12
+#define BINOP_FADD      13
+#define BINOP_SUB       14
+#define BINOP_FSUB      15
+#define BINOP_MUL       16
+#define BINOP_FMUL      17
+#define BINOP_UDIV      18
+#define BINOP_SDIV      19
+#define BINOP_FDIV      20
+#define BINOP_UREM      21
+#define BINOP_SREM      22
+#define BINOP_FREM      23
+#define BINOP_SHL       24
+#define BINOP_LSHR      25
+#define BINOP_ASHR      26
+#define BINOP_AND       27
+#define BINOP_OR        28
+#define BINOP_XOR       29
+
+// // llvm 9+
+// #define BINOP_ADD       13
+// #define BINOP_FADD      14
+// #define BINOP_SUB       15
+// #define BINOP_FSUB      16
+// #define BINOP_MUL       17
+// #define BINOP_FMUL      18
+// #define BINOP_UDIV      19
+// #define BINOP_SDIV      20
+// #define BINOP_FDIV      21
+// #define BINOP_UREM      22
+// #define BINOP_SREM      23
+// #define BINOP_FREM      24
+// #define BINOP_SHL       25
+// #define BINOP_LSHR      26
+// #define BINOP_ASHR      27
+// #define BINOP_AND       28
+// #define BINOP_OR        29
+// #define BINOP_XOR       30
 
 
 
