@@ -164,7 +164,7 @@ The length of function `vm_interpreter_tea_decrypt` is 0x149F2.
 - Code optimization. Virtualization is unsound because code optimization may introduces instructions that xVMP cannot handle. So please compile with the `-O0` option, or optimize after xVMP virtualization is complete. Please do not use the `-O3`, `-O2` option.
 - Please do not use the `-g` option. Because it will introduce instructions such as `@llvm.dbg.declare`.
 - If you want to modify the interpreter, please run the `scripts/rebuild-with-interpreter.sh` script after installing python2 to update the hard-coded interpreter. The interpreter source code is in the `src/xVMPInterpreter` directory.
-- SWITCH statement is not support yet.
+- SWITCH, PHI statement is not support yet.
 
 
 
@@ -175,3 +175,4 @@ The length of function `vm_interpreter_tea_decrypt` is 0x149F2.
 ## Contributing
 
 Feel free to dive in! [Open an issue](https://github.com/GANGE666/xVMP/issues/new) or submit PRs.
+
