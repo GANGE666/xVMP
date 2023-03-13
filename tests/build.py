@@ -17,9 +17,9 @@ PREFIX="sample"
 clang_path = os.path.dirname(os.path.realpath(__file__))+"/../build/bin/clang"
 
 if not os.path.exists(OUTPUT_PATH):
-os.mkdir(OUTPUT_PATH)
-os.mkdir(OUTPUT_PATH+"original/")
-os.mkdir(OUTPUT_PATH+"govmp_out/")
+    os.mkdir(OUTPUT_PATH)
+    os.mkdir(OUTPUT_PATH+"original/")
+    os.mkdir(OUTPUT_PATH+"govmp_out/")
 
 def run_cmd(cmd):
     print("\033[31;43;1m", "Running command: ", cmd, "\033[0m")

@@ -112,10 +112,10 @@ uint32_t tea_decrypt (uint32_t* v) {
 
 We will show the protection effects after four compilation schemes: 
 
-- [Original build](####Original build)
-- [Tigress protection](####Tigress Protection)
-- [xVMP protection](####xVMP Protection)
-- [xVMP combined with Obfuscator-LLVM protection](####xVMP+Obfuscator-LLVM)
+- Original build
+- Tigress protection
+- xVMP protection
+- xVMP combined with Obfuscator-LLVM protection
 
 
 
