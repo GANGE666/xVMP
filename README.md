@@ -4,8 +4,6 @@ xVMP is an LLVM IR-based code virtualization tool, which fulfilled a scalable an
 
 xVMP is developer friendly. You only need to add annotations to the to-be-protected function in the source code, and xVMP can perform virtualization protection on the function during compilation.
 
-The website http://xvmp.homes/ which contains the detailed usage document and video is also available.
-
 
 
 ## Table of Contents
